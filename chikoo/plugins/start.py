@@ -82,10 +82,14 @@ async def _new_member(_, message: types.Message):
     # Find the video in the pics folder
     video_pic = None
     try:
-        for f in os.listdir("pics"):
-            if f.endswith((".mp4", ".gif", ".webm", ".mkv")):
-                video_pic = f"pics/{f}"
-                break
+        welcome_video = os.path.join("pics", "9f9cb0ab87e4f7b6c061a-3544c3bdcf44adbe03.mp4")
+        if os.path.exists(welcome_video):
+            video_pic = welcome_video
+        else:
+            for f in os.listdir("pics"):
+                if f.endswith((".mp4", ".gif", ".webm", ".mkv")):
+                    video_pic = f"pics/{f}"
+                    break
     except Exception:
         pass
         

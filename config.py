@@ -48,7 +48,7 @@ class Config:
 
     @property
     def STATS_IMG(self):
-        return "pics/ChikooMusic.jpg"
+        return "pics/ChikooMusic.png"
 
     @property
     def RANDOM_PIC(self):
@@ -57,7 +57,7 @@ class Config:
             pics = [
                 f"pics/{x}" for x in os.listdir("pics") 
                 if x.endswith((".jpg", ".png", ".jpeg", ".mp4", ".gif", ".webm", ".mkv"))
-                and x.lower() != "chikoomusic.jpg"
+                and x.lower() != "chikoomusic.png"
             ]
             return random.choice(pics) if pics else self.START_IMG
         except Exception:
