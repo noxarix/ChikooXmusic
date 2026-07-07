@@ -37,12 +37,16 @@ async def tag_all(_, message: types.Message):
             if member.user.is_bot or member.user.is_deleted:
                 continue
                 
+            import html
             name = member.user.first_name if member.user.first_name else "User"
-            name = name.replace("[", "").replace("]", "").replace("_", "").replace("*", "")
+            name = name.replace("_", "").replace("*", "")
             if len(name) > 15:
                 name = name[:15] + "..."
-                
-            mentions_list.append(f"[{name}](tg://user?id={member.user.id})")
+            
+            # Escape HTML characters so it doesn't break the parser
+            name = html.escape(name)
+            
+            mentions_list.append(f"<a href='tg://user?id={member.user.id}'>{name}</a>")
             count += 1
             
             if count == 5:

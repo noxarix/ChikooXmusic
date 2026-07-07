@@ -182,10 +182,7 @@ class Inline:
                     url=f"https://t.me/{app.username}?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users", style=ButtonStyle.PRIMARY
                 )
             ],
-            [
-                self.ikb(text=lang["help"], callback_data="help", style=ButtonStyle.PRIMARY),
-                self.ikb(text="🎭 Auto Play Moods", callback_data="mood_menu", style=ButtonStyle.PRIMARY)
-            ],
+            [self.ikb(text=lang["help"], callback_data="help", style=ButtonStyle.PRIMARY)],
             [
                 self.ikb(text=lang["support"], url=config.SUPPORT_CHAT, style=ButtonStyle.SUCCESS),
                 self.ikb(text=lang["channel"], url=config.SUPPORT_CHANNEL, style=ButtonStyle.SUCCESS),

@@ -125,27 +125,24 @@ async def play_mood_cb(client, callback_query: types.CallbackQuery):
     else:
         song = random.choice(MOOD_SONGS.get(mood, ALL_SONGS))
         
-    # Delete the mood menu if it's standalone, or just leave it if it's the player
-    try:
-        await callback_query.message.delete()
-    except Exception:
-        pass
-
-    # We mock a message object to pass into `play_hndlr`
+    # Set the text and command for the play handler to parse
     mock_message = types.Message(
         id=callback_query.message.id,
         chat=callback_query.message.chat,
         from_user=callback_query.from_user,
         date=callback_query.message.date,
-        text=f"/play {song}",
-        command=["play"] + song.split(" ")
+        text=f"/play {song}"
     )
+    mock_message._client = client
+    mock_message.command = ["play"] + song.split(" ")
     
     # Attach lang dictionary since play_hndlr relies on it
-    # We can fetch the chat language
     from chikoo import db, lang
     _language = await db.get_lang(callback_query.message.chat.id)
     setattr(mock_message, "lang", lang.languages.get(_language, lang.languages["en"]))
 
-    # Call the play handler programmatically
-    await play_hndlr(client, mock_message, url=song)
+    # Call the play handler programmatically without url argument since checkUB wrapper doesn't accept it
+    try:
+        await play_hndlr(client, mock_message)
+    except Exception as e:
+        print(f"Error in play_mood_cb: {e}")
