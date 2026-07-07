@@ -20,8 +20,8 @@ async def preview_message(_, message: types.Message):
         if len(message.command) > 1:
             raw_text = message.text.split(None, 1)[1]
             
-    if not raw_text:
-        return await message.reply_text("Please provide text to preview or reply to a message containing the text.")
+    if not raw_text and not message.reply_to_message:
+        return await message.reply_text("Please provide text to preview or reply to a message containing the text or media.")
 
     # Generate a unique ID for this preview session
     preview_id = str(uuid.uuid4())[:8]
@@ -65,11 +65,23 @@ async def preview_message(_, message: types.Message):
     reply_markup = InlineKeyboardMarkup(kb)
 
     try:
-        await message.reply_text(
-            text=parsed.text,
-            reply_markup=reply_markup,
-            disable_web_page_preview=True
-        )
+        if message.reply_to_message and not (message.reply_to_message.text and len(message.command) == 1):
+            kwargs = {}
+            if reply_markup:
+                kwargs["reply_markup"] = reply_markup
+            if parsed and parsed.text and not message.reply_to_message.sticker:
+                kwargs["caption"] = parsed.text
+                
+            await message.reply_to_message.copy(
+                message.chat.id,
+                **kwargs
+            )
+        else:
+            await message.reply_text(
+                text=parsed.text,
+                reply_markup=reply_markup,
+                disable_web_page_preview=True
+            )
     except Exception as e:
         await message.reply_text(f"❌ Error rendering preview:\n`{e}`")
 

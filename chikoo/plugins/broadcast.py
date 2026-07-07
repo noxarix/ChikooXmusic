@@ -29,7 +29,7 @@ def parse_flags(text: str):
         "copy": "-copy" in text
     }
 
-async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False, pinloud=False, copy=False, parsed=None):
+async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False, pinloud=False, copy=False, parsed=None, is_sticker=False):
     global IS_BROADCASTING
     sent = 0
     pinned = 0
@@ -39,8 +39,13 @@ async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False
             break
         try:
             if x and y:
-                if copy:
-                    m = await client.copy_message(target_id, y, x)
+                if copy or (parsed and parsed.reply_markup):
+                    kwargs = {}
+                    if parsed and parsed.reply_markup:
+                        kwargs["reply_markup"] = parsed.reply_markup
+                    if parsed and parsed.text and not is_sticker:
+                        kwargs["caption"] = parsed.text + footer
+                    m = await client.copy_message(target_id, y, x, **kwargs)
                 else:
                     m = await client.forward_messages(target_id, y, x)
             else:
@@ -108,11 +113,13 @@ async def broadcast_message(client, message: Message):
     IS_BROADCASTING = True
     await message.reply_text(message.lang.get("gcast_start", "Broadcast started."))
 
+    is_sticker = bool(message.reply_to_message and message.reply_to_message.sticker)
+    
     # Bot Broadcast
     if not flags["nobot"]:
         chat_ids = await db.get_chats()
         sent, pinned = await broadcast_to_targets(
-            client, chat_ids, query, y, x, flags["pin"], flags["pinloud"], flags["copy"], parsed
+            client, chat_ids, query, y, x, flags["pin"], flags["pinloud"], flags["copy"], parsed, is_sticker
         )
         try:
             await message.reply_text(f"Broadcasted to {sent} chats and pinned {pinned} messages.")
@@ -122,7 +129,7 @@ async def broadcast_message(client, message: Message):
     # User Broadcast
     if IS_BROADCASTING and flags["user"]:
         user_ids = await db.get_users()
-        sent, _ = await broadcast_to_targets(client, user_ids, query, y, x, copy=flags["copy"], parsed=parsed)
+        sent, _ = await broadcast_to_targets(client, user_ids, query, y, x, copy=flags["copy"], parsed=parsed, is_sticker=is_sticker)
         try:
             await message.reply_text(f"Broadcasted to {sent} users.")
         except:
