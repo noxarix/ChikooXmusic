@@ -44,6 +44,7 @@ async def owner_command(_, message: types.Message):
             "The standalone message formatter is fully installed in the root `formatter/` directory! "
             "It can parse custom Markdown, HTML, inline variables, and button syntaxes natively. It's built "
             "to be fully reusable for any Pyrogram bot.\n\n"
+            "👉 **Use `/formatter` to view the full syntax guide.**\n\n"
             "📄 *Check the attached document for the list of all group and user connections.*"
         )
         
@@ -56,3 +57,38 @@ async def owner_command(_, message: types.Message):
         if os.path.exists(filename):
             os.remove(filename)
         await status_msg.delete()
+
+
+@app.on_message(filters.command(["formatter", "format_guide"]) & app.sudoers)
+async def formatter_guide_command(_, message: types.Message):
+    guide = (
+        "🛠 **Chikoo Formatter Syntax Guide**\n\n"
+        "**1. Standard Markdown:**\n"
+        "`**bold**` ➔ **bold**\n"
+        "`__italic__` ➔ __italic__\n"
+        "`~~strike~~` ➔ ~~strike~~\n"
+        "`||spoiler||` ➔ ||spoiler||\n"
+        "`--underline--` ➔ --underline--\n"
+        "`[text](link)` ➔ [text](https://example.com)\n\n"
+        "**2. Inline Variables:**\n"
+        "`{NAME}` ➔ Full Name\n"
+        "`{FIRSTNAME}` ➔ First Name\n"
+        "`{USERNAME}` ➔ @Username\n"
+        "`{MENTION}` ➔ Clickable mention\n"
+        "`{ID}` ➔ User ID\n"
+        "`{GROUPNAME}` ➔ Group Title\n"
+        "`{CHAT_ID}` ➔ Group ID\n"
+        "`{MEMBER_COUNT}` ➔ Group member count\n"
+        "`{TIME}` / `{DATE}` / `{WEEKDAY}`\n\n"
+        "**3. Interactive Buttons:**\n"
+        "Add buttons at the bottom of your message by using `~` on a new line. Separate multiple buttons in a row with `|`.\n\n"
+        "`~ [Click Me, https://example.com]`\n"
+        "`~ [Button 1, t.me/example] | [Button 2, callback:data]`\n\n"
+        "**Button Types:**\n"
+        "• URL: `https://...` or `t.me/...`\n"
+        "• Callback: `callback:my_data`\n"
+        "• Switch Inline: `switch:query`\n"
+        "• User Profile: `user:12345678`"
+    )
+    
+    await message.reply_text(guide, disable_web_page_preview=True)
