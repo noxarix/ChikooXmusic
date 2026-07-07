@@ -1,6 +1,7 @@
 from typing import List, Tuple
 from pyrogram.parser.html import HTML
 from pyrogram.types import MessageEntity
+from chikoo import app
 
 async def build_entities(text: str) -> Tuple[str, List[MessageEntity]]:
     """
@@ -8,7 +9,7 @@ async def build_entities(text: str) -> Tuple[str, List[MessageEntity]]:
     and securely converts it into plain text and a list of Pyrogram MessageEntities 
     using Pyrogram's internal HTML parser.
     """
-    parser = HTML(None)
+    parser = HTML(app)
     # Pyrogram 2.x HTML.parse() is an asynchronous method that returns a dict
     result = await parser.parse(text)
     
