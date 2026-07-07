@@ -106,7 +106,7 @@ async def _new_member(_, message: types.Message):
                 f"I'm ready to play some awesome music for you all. Enjoy! 🎶"
             )
             key = InlineKeyboardMarkup([
-                [InlineKeyboardButton("🎵 SUPPORT CHAT 🎵", url=f"https://t.me/CHIKOO_MUSIC_SUPPORT")]
+                [InlineKeyboardButton("🎵 SUPPORT CHAT 🎵", url=config.SUPPORT_CHAT)]
             ])
             
             try:
