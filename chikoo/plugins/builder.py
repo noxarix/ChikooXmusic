@@ -67,7 +67,6 @@ async def preview_message(_, message: types.Message):
     try:
         await message.reply_text(
             text=parsed.text,
-            entities=parsed.entities,
             reply_markup=reply_markup,
             disable_web_page_preview=True
         )
@@ -134,3 +133,40 @@ async def preview_callbacks(client, callback_query: types.CallbackQuery):
     # Cleanup memory
     if preview_id in PREVIEWS:
         del PREVIEWS[preview_id]
+
+@app.on_message(filters.private & filters.text & app.sudoers & ~filters.regex(r"^/"))
+async def live_formatter_preview(_, message: types.Message):
+    """
+    Interactive Formatter Sandbox.
+    If a sudoer sends plain text to the bot's PM, it is automatically parsed 
+    and echoed back as a live preview.
+    """
+    raw_text = message.text
+    
+    parsed = await parse(raw_text, user=message.from_user, chat=message.chat)
+    
+    kb = []
+    if parsed.reply_markup and "inline_keyboard" in parsed.reply_markup:
+        for row in parsed.reply_markup["inline_keyboard"]:
+            new_row = []
+            for btn in row:
+                if "url" in btn:
+                    new_row.append(InlineKeyboardButton(text=btn["text"], url=btn["url"]))
+                elif "callback_data" in btn:
+                    new_row.append(InlineKeyboardButton(text=btn["text"], callback_data=btn["callback_data"]))
+                elif "user_id" in btn:
+                    new_row.append(InlineKeyboardButton(text=btn["text"], user_id=btn["user_id"]))
+                elif "switch_inline_query" in btn:
+                    new_row.append(InlineKeyboardButton(text=btn["text"], switch_inline_query=btn["switch_inline_query"]))
+            kb.append(new_row)
+            
+    reply_markup = InlineKeyboardMarkup(kb) if kb else None
+    
+    try:
+        await message.reply_text(
+            text=parsed.text,
+            reply_markup=reply_markup,
+            disable_web_page_preview=True
+        )
+    except Exception as e:
+        await message.reply_text(f"❌ Error rendering preview:\n<code>{e}</code>")
