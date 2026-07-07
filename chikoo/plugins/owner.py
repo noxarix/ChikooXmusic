@@ -33,6 +33,7 @@ async def owner_command(_, message: types.Message):
         commands_info = (
             "👑 **Owner / Hidden Commands Overview** 👑\n\n"
             "**Admin/Owner Commands:**\n"
+            "» `/preview` [text] - Interactive message builder (test before broadcast)\n"
             "» `/broadcast` [text] - Broadcast a message\n"
             "» `/broadcast -copy` [reply] - Broadcast without forward tag\n"
             "» `/tagall` [text] - Beautifully mention all members\n"
