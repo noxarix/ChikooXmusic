@@ -16,6 +16,13 @@ async def preview_message(_, message: types.Message):
     raw_text = None
     if message.reply_to_message:
         raw_text = message.reply_to_message.text or message.reply_to_message.caption
+        # If user typed something along with the command (like buttons), append or use it
+        if len(message.command) > 1:
+            cmd_text = message.text.split(None, 1)[1]
+            if raw_text:
+                raw_text += f"\n{cmd_text}"
+            else:
+                raw_text = cmd_text
     else:
         if len(message.command) > 1:
             raw_text = message.text.split(None, 1)[1]
