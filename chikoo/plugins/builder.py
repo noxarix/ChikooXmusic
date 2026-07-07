@@ -44,21 +44,8 @@ async def preview_message(_, message: types.Message):
     kb = []
     
     # Check if the parsed output has buttons
-    if parsed.reply_markup and "inline_keyboard" in parsed.reply_markup:
-        # Extract the buttons created by the formatter
-        # Since it's a raw dict from our formatter, we construct standard Pyrogram buttons
-        for row in parsed.reply_markup["inline_keyboard"]:
-            new_row = []
-            for btn in row:
-                if "url" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], url=btn["url"]))
-                elif "callback_data" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], callback_data=btn["callback_data"]))
-                elif "user_id" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], user_id=btn["user_id"]))
-                elif "switch_inline_query" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], switch_inline_query=btn["switch_inline_query"]))
-            kb.append(new_row)
+    if parsed.reply_markup and getattr(parsed.reply_markup, "inline_keyboard", None):
+        kb.extend(parsed.reply_markup.inline_keyboard)
 
     # Append our control panel at the very bottom
     kb.append([
@@ -165,19 +152,8 @@ async def live_formatter_preview(_, message: types.Message):
     parsed = await parse(raw_text, user=message.from_user, chat=message.chat)
     
     kb = []
-    if parsed.reply_markup and "inline_keyboard" in parsed.reply_markup:
-        for row in parsed.reply_markup["inline_keyboard"]:
-            new_row = []
-            for btn in row:
-                if "url" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], url=btn["url"]))
-                elif "callback_data" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], callback_data=btn["callback_data"]))
-                elif "user_id" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], user_id=btn["user_id"]))
-                elif "switch_inline_query" in btn:
-                    new_row.append(InlineKeyboardButton(text=btn["text"], switch_inline_query=btn["switch_inline_query"]))
-            kb.append(new_row)
+    if parsed.reply_markup and getattr(parsed.reply_markup, "inline_keyboard", None):
+        kb.extend(parsed.reply_markup.inline_keyboard)
             
     reply_markup = InlineKeyboardMarkup(kb) if kb else None
     
