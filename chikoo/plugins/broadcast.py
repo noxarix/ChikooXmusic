@@ -25,10 +25,11 @@ def parse_flags(text: str):
         "pinloud": "-pinloud" in text,
         "nobot": "-nobot" in text,
         "user": "-user" in text,
-        "assistant": "-assistant" in text
+        "assistant": "-assistant" in text,
+        "copy": "-copy" in text
     }
 
-async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False, pinloud=False):
+async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False, pinloud=False, copy=False):
     global IS_BROADCASTING
     sent = 0
     pinned = 0
@@ -38,7 +39,10 @@ async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False
             break
         try:
             if x and y:
-                m = await client.forward_messages(target_id, y, x)
+                if copy:
+                    m = await client.copy_message(target_id, y, x)
+                else:
+                    m = await client.forward_messages(target_id, y, x)
             else:
                 m = await client.send_message(target_id, text=query + footer)
 
@@ -83,7 +87,7 @@ async def broadcast_message(client, message: Message):
         if len(message.command) < 2:
             return await message.reply_text(message.lang.get("gcast_usage", "Reply to a message or provide text to broadcast."))
         query = message.text.split(None, 1)[1]
-        for flag in ["pin", "pinloud", "nobot", "user", "assistant"]:
+        for flag in ["pin", "pinloud", "nobot", "user", "assistant", "copy"]:
             query = query.replace(f"-{flag}", "").strip()
         if not query:
             return await message.reply_text(message.lang.get("gcast_usage", "Please provide text to broadcast."))
@@ -95,7 +99,7 @@ async def broadcast_message(client, message: Message):
     if not flags["nobot"]:
         chat_ids = await db.get_chats()
         sent, pinned = await broadcast_to_targets(
-            client, chat_ids, query, y, x, flags["pin"], flags["pinloud"]
+            client, chat_ids, query, y, x, flags["pin"], flags["pinloud"], flags["copy"]
         )
         try:
             await message.reply_text(f"Broadcasted to {sent} chats and pinned {pinned} messages.")
@@ -105,7 +109,7 @@ async def broadcast_message(client, message: Message):
     # User Broadcast
     if IS_BROADCASTING and flags["user"]:
         user_ids = await db.get_users()
-        sent, _ = await broadcast_to_targets(client, user_ids, query, y, x)
+        sent, _ = await broadcast_to_targets(client, user_ids, query, y, x, copy=flags["copy"])
         try:
             await message.reply_text(f"Broadcasted to {sent} users.")
         except:
@@ -127,7 +131,10 @@ async def broadcast_message(client, message: Message):
                         break
                     try:
                         if x and y:
-                            await user_client.forward_messages(dialog.chat.id, y, x)
+                            if flags["copy"]:
+                                await user_client.copy_message(dialog.chat.id, y, x)
+                            else:
+                                await user_client.forward_messages(dialog.chat.id, y, x)
                         else:
                             await user_client.send_message(dialog.chat.id, text=query + footer)
                         sent += 1

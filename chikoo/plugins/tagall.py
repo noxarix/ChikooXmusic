@@ -26,7 +26,7 @@ async def tag_all(_, message: types.Message):
     
     await message.reply_text("Started tagging members... (Use /cancel to stop)")
     
-    mentions = ""
+    mentions_list = []
     count = 0
     
     try:
@@ -37,20 +37,27 @@ async def tag_all(_, message: types.Message):
             if member.user.is_bot or member.user.is_deleted:
                 continue
                 
-            mentions += f"[{member.user.first_name}](tg://user?id={member.user.id}) "
+            name = member.user.first_name if member.user.first_name else "User"
+            name = name.replace("[", "").replace("]", "").replace("_", "").replace("*", "")
+            if len(name) > 15:
+                name = name[:15] + "..."
+                
+            mentions_list.append(f"[{name}](tg://user?id={member.user.id})")
             count += 1
             
-            if count == 7:
+            if count == 5:
                 try:
+                    mentions = ", ".join(mentions_list)
                     await app.send_message(chat_id, f"{text}\n\n{mentions}")
                 except Exception:
                     pass
-                mentions = ""
+                mentions_list = []
                 count = 0
                 await asyncio.sleep(2)
                 
         if count > 0 and chat_id in active_tags:
             try:
+                mentions = ", ".join(mentions_list)
                 await app.send_message(chat_id, f"{text}\n\n{mentions}")
             except Exception:
                 pass
