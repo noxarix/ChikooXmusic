@@ -37,6 +37,9 @@ class MongoDB:
         self.chats = []
         self.chatsdb = self.db.chats
 
+        self.channels = []
+        self.channelsdb = self.db.channels
+
         self.lang = {}
         self.langdb = self.db.lang
 
@@ -191,6 +194,25 @@ class MongoDB:
         if not self.chats:
             self.chats.extend([chat["_id"] async for chat in self.chatsdb.find()])
         return self.chats
+
+    # CHANNEL METHODS
+    async def is_channel(self, chat_id: int) -> bool:
+        return chat_id in self.channels
+
+    async def add_channel(self, chat_id: int) -> None:
+        if not await self.is_channel(chat_id):
+            self.channels.append(chat_id)
+            await self.channelsdb.insert_one({"_id": chat_id})
+
+    async def rm_channel(self, chat_id: int) -> None:
+        if await self.is_channel(chat_id):
+            self.channels.remove(chat_id)
+            await self.channelsdb.delete_one({"_id": chat_id})
+
+    async def get_channels(self) -> list:
+        if not self.channels:
+            self.channels.extend([chat["_id"] async for chat in self.channelsdb.find()])
+        return self.channels
 
     # COMMAND DELETE
     async def get_cmd_delete(self, chat_id: int) -> bool:

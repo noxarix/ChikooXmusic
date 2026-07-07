@@ -26,10 +26,11 @@ def parse_flags(text: str):
         "nobot": "-nobot" in text,
         "user": "-user" in text,
         "assistant": "-assistant" in text,
-        "copy": "-copy" in text
+        "copy": "-copy" in text,
+        "channel": "-channel" in text
     }
 
-async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False, pinloud=False, copy=False, parsed=None, is_sticker=False):
+async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False, pinloud=False, copy=False, parsed=None, is_sticker=False, media=None):
     global IS_BROADCASTING
     sent = 0
     pinned = 0
@@ -51,12 +52,22 @@ async def broadcast_to_targets(client, targets, query, y=None, x=None, pin=False
                     m = await client.forward_messages(target_id, y, x)
             else:
                 if parsed:
-                    m = await client.send_message(
-                        target_id, 
-                        text=parsed.text + footer,
-                        parse_mode=enums.ParseMode.HTML,
-                        reply_markup=parsed.reply_markup
-                    )
+                    if media:
+                        if media["type"] == "photo":
+                            m = await client.send_photo(target_id, photo=media["file_id"], caption=parsed.text + footer, parse_mode=enums.ParseMode.HTML, reply_markup=parsed.reply_markup)
+                        elif media["type"] == "video":
+                            m = await client.send_video(target_id, video=media["file_id"], caption=parsed.text + footer, parse_mode=enums.ParseMode.HTML, reply_markup=parsed.reply_markup)
+                        elif media["type"] == "animation":
+                            m = await client.send_animation(target_id, animation=media["file_id"], caption=parsed.text + footer, parse_mode=enums.ParseMode.HTML, reply_markup=parsed.reply_markup)
+                        elif media["type"] == "document":
+                            m = await client.send_document(target_id, document=media["file_id"], caption=parsed.text + footer, parse_mode=enums.ParseMode.HTML, reply_markup=parsed.reply_markup)
+                    else:
+                        m = await client.send_message(
+                            target_id, 
+                            text=parsed.text + footer,
+                            parse_mode=enums.ParseMode.HTML,
+                            reply_markup=parsed.reply_markup
+                        )
                 else:
                     m = await client.send_message(target_id, text=query + footer)
 
@@ -101,13 +112,19 @@ async def broadcast_message(client, message: Message):
         if len(message.command) < 2:
             return await message.reply_text(message.lang.get("gcast_usage", "Reply to a message or provide text to broadcast."))
         query = message.text.split(None, 1)[1]
-        for flag in ["pin", "pinloud", "nobot", "user", "assistant", "copy"]:
+        for flag in ["pin", "pinloud", "nobot", "user", "assistant", "copy", "channel"]:
             query = query.replace(f"-{flag}", "").strip()
         if not query:
             return await message.reply_text(message.lang.get("gcast_usage", "Please provide text to broadcast."))
 
     parsed = None
+    media = None
     if query:
+        saved = await db.saved_broadcasts.find_one({"name": query.lower()})
+        if saved:
+            query = saved["text"]
+            media = saved.get("media")
+            
         from formatter import parse
         parsed = await parse(query, user=message.from_user, chat=message.chat)
 
@@ -120,7 +137,7 @@ async def broadcast_message(client, message: Message):
     if not flags["nobot"]:
         chat_ids = await db.get_chats()
         sent, pinned = await broadcast_to_targets(
-            client, chat_ids, query, y, x, flags["pin"], flags["pinloud"], flags["copy"], parsed, is_sticker
+            client, chat_ids, query, y, x, flags["pin"], flags["pinloud"], flags["copy"], parsed, is_sticker, media
         )
         try:
             await message.reply_text(f"Broadcasted to {sent} chats and pinned {pinned} messages.")
@@ -130,9 +147,20 @@ async def broadcast_message(client, message: Message):
     # User Broadcast
     if IS_BROADCASTING and flags["user"]:
         user_ids = await db.get_users()
-        sent, _ = await broadcast_to_targets(client, user_ids, query, y, x, copy=flags["copy"], parsed=parsed, is_sticker=is_sticker)
+        sent, _ = await broadcast_to_targets(client, user_ids, query, y, x, copy=flags["copy"], parsed=parsed, is_sticker=is_sticker, media=media)
         try:
             await message.reply_text(f"Broadcasted to {sent} users.")
+        except:
+            pass
+
+    # Channel Broadcast
+    if IS_BROADCASTING and flags["channel"]:
+        channel_ids = await db.get_channels()
+        sent, pinned = await broadcast_to_targets(
+            client, channel_ids, query, y, x, flags["pin"], flags["pinloud"], flags["copy"], parsed, is_sticker, media
+        )
+        try:
+            await message.reply_text(f"Broadcasted to {sent} channels and pinned {pinned} messages.")
         except:
             pass
 

@@ -1,0 +1,213 @@
+[03-Jul-26 12:05:20 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 12:05:21 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 12:06:39 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 12:06:40 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 12:08:05 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 12:08:06 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 12:08:16 - INFO] - chikoo: Database connection successful. (8.03s)
+[03-Jul-26 12:08:17 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 12:08:17 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 12:08:25 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 12:08:26 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 12:08:27 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 12:08:27 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 12:08:28 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 12:10:35 - ERROR] - pyrogram.dispatcher: Unexpected exception raised in MessageHandler:
+Traceback (most recent call last):
+  File "C:\Users\hujai\AppData\Roaming\Python\Python314\site-packages\pyrogram\dispatcher.py", line 444, in handler_worker
+    await handler.callback(self.client, *args)
+  File "C:\Users\hujai\OneDrive\Desktop\Projects\TELLEGRAM MUSIC BOT\telegram-music-CHIKOO\telegram-music-CHIKOO\chikoo\core\lang.py", line 95, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hujai\OneDrive\Desktop\Projects\TELLEGRAM MUSIC BOT\telegram-music-CHIKOO\telegram-music-CHIKOO\chikoo\plugins\start.py", line 39, in start
+    key = buttons.start_key(message.lang, private)
+  File "C:\Users\hujai\OneDrive\Desktop\Projects\TELLEGRAM MUSIC BOT\telegram-music-CHIKOO\telegram-music-CHIKOO\chikoo\helpers\_inline.py", line 194, in start_key
+    self.ikb(text=lang["chikooowner"], user_id=config.OWNER_ID, style=ButtonStyle.DANGER),
+                  ~~~~^^^^^^^^^^^^^^
+KeyError: 'chikooowner'
+[03-Jul-26 12:12:27 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 12:12:28 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 12:12:37 - INFO] - chikoo: Database connection successful. (7.71s)
+[03-Jul-26 12:12:38 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 12:13:38 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 12:13:39 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 12:13:47 - INFO] - chikoo: Database connection successful. (5.60s)
+[03-Jul-26 12:13:47 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 12:13:47 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 12:13:49 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 12:13:50 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 12:13:51 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 12:13:51 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 12:13:51 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 12:38:49 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 12:38:49 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 12:38:57 - INFO] - chikoo: Database connection successful. (5.79s)
+[03-Jul-26 12:38:57 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 12:38:57 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 12:38:59 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 12:39:06 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 12:39:08 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 12:39:08 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 12:39:08 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 12:42:38 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 12:42:38 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 12:42:47 - INFO] - chikoo: Database connection successful. (8.08s)
+[03-Jul-26 12:42:48 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 12:42:48 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 12:42:50 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 12:42:52 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 12:42:52 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 12:42:53 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 12:42:53 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 13:46:11 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 13:46:13 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 13:51:18 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 13:51:18 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 13:51:25 - INFO] - chikoo: Database connection successful. (5.97s)
+[03-Jul-26 13:51:26 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 13:51:26 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 13:51:28 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 13:52:02 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 13:52:03 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 13:52:03 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 13:52:03 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 14:00:22 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:00:23 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:00:33 - INFO] - chikoo: Database connection successful. (7.88s)
+[03-Jul-26 14:00:33 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:00:34 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 14:00:36 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 14:00:38 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 14:00:38 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 14:00:38 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 14:00:39 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 14:09:56 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:09:57 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:10:04 - INFO] - chikoo: Database connection successful. (5.93s)
+[03-Jul-26 14:10:04 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:10:04 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 14:10:08 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 14:10:10 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 14:10:10 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 14:10:11 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 14:10:11 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 14:19:58 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:19:58 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:20:06 - INFO] - chikoo: Database connection successful. (6.29s)
+[03-Jul-26 14:20:06 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:20:54 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:20:54 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:21:04 - INFO] - chikoo: Database connection successful. (8.12s)
+[03-Jul-26 14:21:05 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:21:05 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 14:21:09 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 14:21:10 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 14:21:11 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 14:21:11 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 14:21:11 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 14:26:54 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:26:55 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:27:02 - INFO] - chikoo: Database connection successful. (5.75s)
+[03-Jul-26 14:27:02 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:27:02 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 14:27:18 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 14:27:20 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 14:27:20 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 14:27:21 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 14:27:21 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 14:29:33 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:29:34 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:29:47 - INFO] - chikoo: Database connection successful. (7.54s)
+[03-Jul-26 14:29:48 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:29:48 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 14:29:53 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 14:29:55 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 14:29:55 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 14:29:56 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 14:29:56 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 14:53:36 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:53:37 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:53:44 - INFO] - chikoo: Database connection successful. (5.87s)
+[03-Jul-26 14:53:45 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:53:45 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 14:53:48 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 14:53:55 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 14:53:55 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 14:53:55 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 14:53:56 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 14:55:37 - ERROR] - pyrogram.dispatcher: Unexpected exception raised in MessageHandler:
+Traceback (most recent call last):
+  File "C:\Users\hujai\AppData\Roaming\Python\Python314\site-packages\pyrogram\dispatcher.py", line 444, in handler_worker
+    await handler.callback(self.client, *args)
+  File "C:\Users\hujai\OneDrive\Desktop\Projects\TELLEGRAM MUSIC BOT\telegram-music-ALONE\telegram-music-ALONE\chikoo\core\lang.py", line 95, in wrapper
+    return await func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hujai\OneDrive\Desktop\Projects\TELLEGRAM MUSIC BOT\telegram-music-ALONE\telegram-music-ALONE\chikoo\plugins\start.py", line 80, in _new_member
+    await utils.send_log(message, True)
+  File "C:\Users\hujai\OneDrive\Desktop\Projects\TELLEGRAM MUSIC BOT\telegram-music-ALONE\telegram-music-ALONE\chikoo\helpers\_utilities.py", line 132, in send_log
+    await app.send_photo(
+    ...<4 lines>...
+    )
+  File "C:\Users\hujai\AppData\Roaming\Python\Python314\site-packages\pyrogram\methods\messages\send_photo.py", line 285, in send_photo
+    r = await self.invoke(
+        ^^^^^^^^^^^^^^^^^^
+    ...<23 lines>...
+    )
+    ^
+  File "C:\Users\hujai\AppData\Roaming\Python\Python314\site-packages\pyrogram\methods\advanced\invoke.py", line 107, in invoke
+    r = await session.invoke(
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\hujai\AppData\Roaming\Python\Python314\site-packages\pyrogram\session\session.py", line 551, in invoke
+    return await self.send(query, timeout=timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hujai\AppData\Roaming\Python\Python314\site-packages\pyrogram\session\session.py", line 514, in send
+    RPCError.raise_it(result, type(data))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\hujai\AppData\Roaming\Python\Python314\site-packages\pyrogram\errors\rpc_error.py", line 91, in raise_it
+    raise getattr(
+    ...<5 lines>...
+      is_signed=is_signed)
+pyrogram.errors.exceptions.bad_request_400.PhotoExtInvalid: Telegram says: [400 PHOTO_EXT_INVALID] - The extension of the photo is invalid. (caused by "messages.SendMedia")
+[03-Jul-26 14:58:45 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 14:58:46 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 14:58:57 - INFO] - chikoo: Database connection successful. (10.07s)
+[03-Jul-26 14:58:58 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 14:58:58 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 14:59:01 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 14:59:03 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 14:59:04 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 14:59:04 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 14:59:04 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 15:01:10 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 15:01:10 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 15:01:26 - INFO] - chikoo: Database connection successful. (13.80s)
+[03-Jul-26 15:01:27 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 15:01:27 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 15:01:49 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 15:02:00 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 15:02:04 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 15:02:04 - INFO] - chikoo: Loaded 21 modules.
+[03-Jul-26 15:02:06 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 15:46:20 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 15:46:21 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 15:46:32 - INFO] - chikoo: Database connection successful. (6.63s)
+[03-Jul-26 15:46:32 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 15:46:32 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 15:46:35 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 15:46:37 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 15:46:37 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 15:46:38 - INFO] - chikoo: Loaded 22 modules.
+[03-Jul-26 15:46:38 - INFO] - chikoo: Loaded 1 sudo users.
+[03-Jul-26 15:50:16 - INFO] - chikoo: Cache directories updated.
+[03-Jul-26 15:50:17 - INFO] - chikoo: Loaded languages: ar, de, en, es, fr, hi, ja, my, pa, pt, ru, zh
+[03-Jul-26 15:50:25 - INFO] - chikoo: Database connection successful. (5.67s)
+[03-Jul-26 15:50:25 - INFO] - chikoo: Database cache loaded.
+[03-Jul-26 15:50:26 - INFO] - chikoo: Web server started on port 8080
+[03-Jul-26 15:50:29 - INFO] - chikoo: Bot started as @ChikooMusic_bot
+[03-Jul-26 15:50:31 - INFO] - chikoo: Assistant 1 started as @ORIGINAL_POOOKIE
+[03-Jul-26 15:50:31 - INFO] - chikoo: PyTgCalls client(s) started.
+[03-Jul-26 15:50:31 - INFO] - chikoo: Loaded 22 modules.
+[03-Jul-26 15:50:32 - INFO] - chikoo: Loaded 1 sudo users.

@@ -18,8 +18,18 @@ async def save_broadcast(_, message: types.Message):
     name = message.command[1].lower()
     
     raw_text = None
+    media = None
+    
     if message.reply_to_message:
         raw_text = message.reply_to_message.text or message.reply_to_message.caption
+        if message.reply_to_message.photo:
+            media = {"type": "photo", "file_id": message.reply_to_message.photo.file_id}
+        elif message.reply_to_message.video:
+            media = {"type": "video", "file_id": message.reply_to_message.video.file_id}
+        elif message.reply_to_message.animation:
+            media = {"type": "animation", "file_id": message.reply_to_message.animation.file_id}
+        elif message.reply_to_message.document:
+            media = {"type": "document", "file_id": message.reply_to_message.document.file_id}
         
     if not raw_text:
         return await message.reply_text("Please reply to the formatted text you want to save.")
@@ -28,7 +38,7 @@ async def save_broadcast(_, message: types.Message):
     
     await db.saved_broadcasts.update_one(
         {"name": name},
-        {"$set": {"text": raw_text}},
+        {"$set": {"text": raw_text, "media": media}},
         upsert=True
     )
     
@@ -105,23 +115,28 @@ async def load_broadcast(_, message: types.Message):
                     new_row.append(InlineKeyboardButton(text=btn["text"], switch_inline_query=btn["switch_inline_query"]))
             kb.append(new_row)
 
-    kb.append([
-        InlineKeyboardButton("📡 Broadcast to Groups", callback_data=f"bc_grp_{preview_id}"),
-        InlineKeyboardButton("👥 Broadcast to Users", callback_data=f"bc_usr_{preview_id}")
-    ])
-    kb.append([
-        InlineKeyboardButton("❌ Cancel Preview", callback_data=f"bc_cancel_{preview_id}")
-    ])
-
-    reply_markup = InlineKeyboardMarkup(kb)
+    reply_markup = InlineKeyboardMarkup(kb) if kb else None
+    
+    media = saved.get("media")
 
     try:
-        await message.reply_text(
-            text=f"**[Loaded: {name}]**\n\n" + parsed.text,
-            entities=parsed.entities,
-            reply_markup=reply_markup,
-            disable_web_page_preview=True
-        )
+        text = f"**[Loaded: {name}]**\n\n" + parsed.text
+        if media:
+            if media["type"] == "photo":
+                await message.reply_photo(photo=media["file_id"], caption=text, reply_markup=reply_markup, caption_entities=parsed.entities)
+            elif media["type"] == "video":
+                await message.reply_video(video=media["file_id"], caption=text, reply_markup=reply_markup, caption_entities=parsed.entities)
+            elif media["type"] == "animation":
+                await message.reply_animation(animation=media["file_id"], caption=text, reply_markup=reply_markup, caption_entities=parsed.entities)
+            elif media["type"] == "document":
+                await message.reply_document(document=media["file_id"], caption=text, reply_markup=reply_markup, caption_entities=parsed.entities)
+        else:
+            await message.reply_text(
+                text=text,
+                entities=parsed.entities,
+                reply_markup=reply_markup,
+                disable_web_page_preview=True
+            )
     except Exception as e:
         await message.reply_text(f"❌ Error rendering preview:\n`{e}`")
 
@@ -155,6 +170,7 @@ async def schedule_broadcast(_, message: types.Message):
     
     raw_text = None
     saved_name = None
+    media = None
     
     if len(message.command) > 3:
         saved_name = message.command[3].lower()
@@ -162,8 +178,17 @@ async def schedule_broadcast(_, message: types.Message):
         if not saved:
             return await message.reply_text(f"❌ Could not find saved broadcast: `{saved_name}`")
         raw_text = saved["text"]
+        media = saved.get("media")
     elif message.reply_to_message:
         raw_text = message.reply_to_message.text or message.reply_to_message.caption
+        if message.reply_to_message.photo:
+            media = {"type": "photo", "file_id": message.reply_to_message.photo.file_id}
+        elif message.reply_to_message.video:
+            media = {"type": "video", "file_id": message.reply_to_message.video.file_id}
+        elif message.reply_to_message.animation:
+            media = {"type": "animation", "file_id": message.reply_to_message.animation.file_id}
+        elif message.reply_to_message.document:
+            media = {"type": "document", "file_id": message.reply_to_message.document.file_id}
         
     if not raw_text:
         return await message.reply_text("Please reply to the text to schedule, or specify a saved broadcast name!")
@@ -175,6 +200,7 @@ async def schedule_broadcast(_, message: types.Message):
         "target": target,
         "execute_time": execute_time,
         "text": raw_text,
+        "media": media,
         "scheduled_by": message.from_user.id
     })
     
@@ -191,6 +217,7 @@ async def scheduler_loop(client):
             for task in tasks:
                 raw_text = task["text"]
                 target = task["target"]
+                media = task.get("media")
                 
                 parsed = await parse(raw_text)
                 
@@ -199,7 +226,7 @@ async def scheduler_loop(client):
                 else:
                     targets = await db.get_users()
                     
-                await broadcast_to_targets(client, targets, query=raw_text, parsed=parsed)
+                await broadcast_to_targets(client, targets, query=raw_text, parsed=parsed, media=media)
                 
                 # Delete the task after executing
                 await db.scheduled_broadcasts.delete_one({"_id": task["_id"]})
