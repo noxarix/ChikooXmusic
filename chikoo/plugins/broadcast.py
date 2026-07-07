@@ -133,14 +133,16 @@ async def broadcast_message(client, message: Message):
 
     is_sticker = bool(message.reply_to_message and message.reply_to_message.sticker)
     
-    # Bot Broadcast
-    if not flags["nobot"]:
+    # Bot Broadcast (Groups)
+    # If -channel is specified, we skip group broadcast unless they explicitly omitted -nobot?
+    # Wait, the simplest fix is to skip groups if -channel is used.
+    if not flags["nobot"] and not flags["channel"]:
         chat_ids = await db.get_chats()
         sent, pinned = await broadcast_to_targets(
             client, chat_ids, query, y, x, flags["pin"], flags["pinloud"], flags["copy"], parsed, is_sticker, media
         )
         try:
-            await message.reply_text(f"Broadcasted to {sent} chats and pinned {pinned} messages.")
+            await message.reply_text(f"Broadcasted to {sent} groups and pinned {pinned} messages.")
         except:
             pass
 
