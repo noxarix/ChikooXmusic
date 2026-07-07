@@ -40,23 +40,14 @@ async def preview_message(_, message: types.Message):
     # Parse it to see exactly how it will look
     parsed = await parse(raw_text, user=message.from_user, chat=message.chat)
     
-    # We will merge the buttons from the parsed text with our control panel
+    # We will use the buttons from the parsed text
     kb = []
     
     # Check if the parsed output has buttons
     if parsed.reply_markup and getattr(parsed.reply_markup, "inline_keyboard", None):
         kb.extend(parsed.reply_markup.inline_keyboard)
 
-    # Append our control panel at the very bottom
-    kb.append([
-        InlineKeyboardButton("📡 Broadcast to Groups", callback_data=f"bc_grp_{preview_id}"),
-        InlineKeyboardButton("👥 Broadcast to Users", callback_data=f"bc_usr_{preview_id}")
-    ])
-    kb.append([
-        InlineKeyboardButton("❌ Cancel Preview", callback_data=f"bc_cancel_{preview_id}")
-    ])
-
-    reply_markup = InlineKeyboardMarkup(kb)
+    reply_markup = InlineKeyboardMarkup(kb) if kb else None
 
     try:
         if message.reply_to_message and not (message.reply_to_message.text and len(message.command) == 1):
