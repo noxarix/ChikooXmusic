@@ -43,6 +43,9 @@ class MongoDB:
         self.users = []
         self.usersdb = self.db.users
 
+        self.saved_broadcasts = self.db.saved_broadcasts
+        self.scheduled_broadcasts = self.db.scheduled_broadcasts
+
     async def connect(self) -> None:
         """Check if we can connect to the database.
 

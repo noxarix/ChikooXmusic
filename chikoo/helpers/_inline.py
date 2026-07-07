@@ -48,7 +48,7 @@ class Inline:
                 [
                     self.ikb(
                         text=_lang.get("add_me", "✙ 𝐀ᴅᴅ 𝐌є 𝐈η 𝐘συʀ 𝐆ʀσυᴘ ✙"),
-                        url=f"https://t.me/{app.username}?startgroup=true",
+                        url=f"https://t.me/{app.username}?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users",
                         style=ButtonStyle.PRIMARY,
                     ),
                 ]
@@ -56,8 +56,8 @@ class Inline:
             keyboard.append(
                 [
                     self.ikb(
-                        text=_lang.get("channel", "˹ 𝐔ᴘᴅᴧᴛєs ˼"),
-                        url=config.SUPPORT_CHANNEL,
+                        text=_lang.get("auto_play", "🎭 𝐀𝐮𝐭𝐨 𝐏𝐥𝐚𝐲 𝐌𝐨𝐨𝐝𝐬"),
+                        callback_data="mood_menu",
                         style=ButtonStyle.SUCCESS,
                     ),
                     self.ikb(
@@ -179,10 +179,13 @@ class Inline:
             [
                 self.ikb(
                     text=lang["add_me"],
-                    url=f"https://t.me/{app.username}?startgroup=true", style=ButtonStyle.PRIMARY
+                    url=f"https://t.me/{app.username}?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users", style=ButtonStyle.PRIMARY
                 )
             ],
-            [self.ikb(text=lang["help"], callback_data="help", style=ButtonStyle.PRIMARY)],
+            [
+                self.ikb(text=lang["help"], callback_data="help", style=ButtonStyle.PRIMARY),
+                self.ikb(text="🎭 Auto Play Moods", callback_data="mood_menu", style=ButtonStyle.PRIMARY)
+            ],
             [
                 self.ikb(text=lang["support"], url=config.SUPPORT_CHAT, style=ButtonStyle.SUCCESS),
                 self.ikb(text=lang["channel"], url=config.SUPPORT_CHANNEL, style=ButtonStyle.SUCCESS),
@@ -201,6 +204,40 @@ class Inline:
         else:
             rows += [[self.ikb(text=lang["language"], callback_data="language")]]
         return self.ikm(rows)
+
+    def mood_markup(self) -> types.InlineKeyboardMarkup:
+        return self.ikm(
+            [
+                [
+                    self.ikb(text="💔 Sad", callback_data="play_mood sad", style=ButtonStyle.PRIMARY),
+                    self.ikb(text="🔥 Motivational", callback_data="play_mood motivational", style=ButtonStyle.PRIMARY)
+                ],
+                [
+                    self.ikb(text="🎉 Party", callback_data="play_mood party", style=ButtonStyle.SUCCESS),
+                    self.ikb(text="🌙 Chill", callback_data="play_mood chill", style=ButtonStyle.SUCCESS)
+                ],
+                [
+                    self.ikb(text="❤️ Romantic", callback_data="play_mood romantic", style=ButtonStyle.PRIMARY),
+                    self.ikb(text="😈 Dark", callback_data="play_mood dark", style=ButtonStyle.PRIMARY)
+                ],
+                [
+                    self.ikb(text="🎧 Hindi Emo", callback_data="play_mood hindi_emotional", style=ButtonStyle.SUCCESS),
+                    self.ikb(text="💖 Hindi Love", callback_data="play_mood hindi_love", style=ButtonStyle.SUCCESS)
+                ],
+                [
+                    self.ikb(text="🎉 Hindi Party", callback_data="play_mood hindi_party", style=ButtonStyle.PRIMARY),
+                    self.ikb(text="🌌 Indie/Lo-fi", callback_data="play_mood hindi_indie", style=ButtonStyle.PRIMARY)
+                ],
+                [
+                    self.ikb(text="🎵 Taste Match", callback_data="play_mood taste_match", style=ButtonStyle.SUCCESS),
+                    self.ikb(text="🎲 Surprise Me", callback_data="play_mood random", style=ButtonStyle.SUCCESS)
+                ],
+                [
+                    self.ikb(text="⬅️ Back", callback_data="help_back_start", style=ButtonStyle.DANGER),
+                    self.ikb(text="❌ Close", callback_data="help close", style=ButtonStyle.DANGER)
+                ]
+            ]
+        )
 
     def yt_key(self, link: str) -> types.InlineKeyboardMarkup:
         return self.ikm(

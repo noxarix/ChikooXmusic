@@ -129,7 +129,7 @@ async def _new_member(_, message: types.Message):
                 f"<b><u>HOPE YOU FIND GOOD VIBES, NEW FRIENDS, AND LOTS OF FUN HERE!</u></b> 🌟"
             )
             key = InlineKeyboardMarkup([
-                [InlineKeyboardButton("🎵 ADD ME IN YOUR GROUP 🎵", url=f"https://t.me/{app.username}?startgroup=true")]
+                [InlineKeyboardButton("🎵 ADD ME IN YOUR GROUP 🎵", url=f"https://t.me/{app.username}?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users")]
             ])
             
             try:

@@ -48,7 +48,7 @@ class Bot(pyrogram.Client):
 
 <i>Bot is now online and ready to serve!</i>
 """
-            key = InlineKeyboardMarkup([[InlineKeyboardButton("Add Me To Your Group", url=f"https://t.me/{self.username}?startgroup=true")]])
+            key = InlineKeyboardMarkup([[InlineKeyboardButton("Add Me To Your Group", url=f"https://t.me/{self.username}?startgroup=s&admin=delete_messages+manage_video_chats+pin_messages+invite_users")]])
             pic = config.RANDOM_PIC
             if str(pic).endswith((".mp4", ".gif", ".webm", ".mkv")):
                 await self.send_video(self.logger, video=pic, caption=bot_started_text, reply_markup=key)
@@ -60,6 +60,34 @@ class Bot(pyrogram.Client):
 
         if get.status != pyrogram.enums.ChatMemberStatus.ADMINISTRATOR:
             raise SystemExit("Please promote the bot as an admin in logger group.")
+        
+        try:
+            from pyrogram.types import BotCommand
+            commands = [
+                BotCommand("play", "Play a song"),
+                BotCommand("vplay", "Play a video"),
+                BotCommand("pause", "Pause the playback"),
+                BotCommand("resume", "Resume the playback"),
+                BotCommand("skip", "Skip to the next track"),
+                BotCommand("stop", "Stop playback and clear queue"),
+                BotCommand("seek", "Seek the current track"),
+                BotCommand("queue", "Check the playback queue"),
+                BotCommand("lang", "Change bot language"),
+                BotCommand("ping", "Check bot status and latency"),
+                BotCommand("stats", "Check bot stats")
+            ]
+            await self.set_bot_commands(commands)
+        except Exception as e:
+            logger.warning(f"Failed to set bot commands: {e}")
+
+        try:
+            import asyncio
+            from chikoo.plugins.saved_broadcasts import scheduler_loop
+            asyncio.create_task(scheduler_loop(self))
+            logger.info("Started Scheduled Broadcast Loop")
+        except Exception as e:
+            logger.warning(f"Failed to start scheduler loop: {e}")
+
         logger.info(f"Bot started as @{self.username}")
 
     async def exit(self):
