@@ -102,24 +102,11 @@ async def search_download_cb(_, query: types.CallbackQuery):
                 else:
                     return await query.message.reply_text("❌ Failed to download audio.")
                     
-        await query.message.reply_text(
-            "🤖 Want the same bot? Create your own — for free",
-            reply_markup=types.InlineKeyboardMarkup([[types.InlineKeyboardButton("Create your own bot", url=f"https://t.me/{app.me.username}")]])
-        )
-
-        reply_markup = types.InlineKeyboardMarkup([
-            [
-                types.InlineKeyboardButton("abc Lyrics", callback_data=f"lyrics_{idx}_{user_id}"),
-                types.InlineKeyboardButton("🔍", switch_inline_query_current_chat="")
-            ]
-        ])
-
         await query.message.reply_audio(
             audio=file_name,
             title=name,
             performer=artists,
             caption=f"@{app.me.username} | info",
-            reply_markup=reply_markup,
             quote=False
         )
         import os
