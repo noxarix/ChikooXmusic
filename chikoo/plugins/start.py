@@ -10,9 +10,17 @@ from chikoo import app, config, db, lang
 from chikoo.helpers import buttons, utils
 
 
-@app.on_message(filters.command(["help"]) & filters.private & ~app.bl_users)
+@app.on_message(filters.command(["help"]) & ~app.bl_users)
 @lang.language()
 async def _help(_, m: types.Message):
+    if m.chat.type != enums.ChatType.PRIVATE:
+        return await m.reply_text(
+            "Contact me in PM for help.",
+            reply_markup=types.InlineKeyboardMarkup(
+                [[types.InlineKeyboardButton("Help Menu", url=f"https://t.me/{app.me.username}?start=help")]]
+            ),
+        )
+        
     is_sudo = m.from_user.id in app.sudoers
     await m.reply_text(
         text=m.lang["help_menu"],
