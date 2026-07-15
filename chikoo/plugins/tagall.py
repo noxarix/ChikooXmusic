@@ -26,9 +26,6 @@ async def tag_all(_, message: types.Message):
     
     await message.reply_text("Started tagging members... (Use /cancel to stop)")
     
-    mentions_list = []
-    count = 0
-    
     try:
         async for member in app.get_chat_members(chat_id):
             if chat_id not in active_tags:
@@ -46,25 +43,19 @@ async def tag_all(_, message: types.Message):
             # Escape HTML characters so it doesn't break the parser
             name = html.escape(name)
             
-            mentions_list.append(f"<a href='tg://openmessage?user_id={member.user.id}'>{name}</a>")
-            count += 1
-            
-            if count == 5:
-                try:
-                    mentions = ", ".join(mentions_list)
-                    await app.send_message(chat_id, f"{text}\n\n{mentions}")
-                except Exception:
-                    pass
-                mentions_list = []
-                count = 0
-                await asyncio.sleep(2)
+            # Use @username if available, otherwise fallback to HTML mention
+            if member.user.username:
+                mention = f"@{member.user.username}"
+            else:
+                mention = f"<a href='tg://user?id={member.user.id}'>{name}</a>"
                 
-        if count > 0 and chat_id in active_tags:
             try:
-                mentions = ", ".join(mentions_list)
-                await app.send_message(chat_id, f"{text}\n\n{mentions}")
+                await app.send_message(chat_id, f"{text}\n\n{mention}")
             except Exception:
                 pass
+            
+            # Sleep to prevent hitting Telegram's flood wait limit
+            await asyncio.sleep(1.5)
             
     except Exception as e:
         pass
